@@ -4,23 +4,42 @@ from collections.abc import Callable
 
 import streamlit as st
 
-from components import (
-    brand_lockup,
-    chip,
-    empty_state,
-    feature_card,
-    info_section,
-    metric_card,
-    mobile_brand,
-    page_footer,
-    page_header,
-    plan_card,
-    routing_path_display,
-    section_heading,
-    status_indicator,
-    steps_markup,
-)
-from styles import APP_CSS
+try:
+    from app.components import (
+        brand_lockup,
+        chip,
+        empty_state,
+        feature_card,
+        info_section,
+        metric_card,
+        mobile_brand,
+        page_footer,
+        page_header,
+        plan_card,
+        routing_path_display,
+        section_heading,
+        status_indicator,
+        steps_markup,
+    )
+    from app.styles import APP_CSS
+except ModuleNotFoundError:
+    from components import (
+        brand_lockup,
+        chip,
+        empty_state,
+        feature_card,
+        info_section,
+        metric_card,
+        mobile_brand,
+        page_footer,
+        page_header,
+        plan_card,
+        routing_path_display,
+        section_heading,
+        status_indicator,
+        steps_markup,
+    )
+    from styles import APP_CSS
 
 SCENARIOS = {
     "Vocabulary Flashcard": "Explain the meaning of a vocabulary word and give one example sentence.",
