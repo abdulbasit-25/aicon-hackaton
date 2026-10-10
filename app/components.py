@@ -13,11 +13,108 @@ PLACEHOLDER_STAGES: tuple[tuple[str, str], ...] = (
 )
 
 
+def page_header(eyebrow: str, title: str, description: str) -> None:
+    """Render the eyebrow, page title and intro paragraph."""
+    st.markdown(f'<div class="eyebrow">{escape(eyebrow)}</div>', unsafe_allow_html=True)
+    st.title(title)
+    st.markdown(f'<p class="page-intro">{escape(description)}</p>', unsafe_allow_html=True)
+
+
 def section_heading(title: str, description: str | None = None) -> None:
     """Render a section title with an optional supporting sentence."""
     st.markdown(f'<h3 class="section-heading">{escape(title)}</h3>', unsafe_allow_html=True)
     if description:
         st.caption(description)
+
+
+def brand_lockup() -> None:
+    """Sidebar brand block."""
+    st.markdown(
+        '<div class="brand-shell"><div class="brand-mark">E</div><div>'
+        '<div class="brand-name">EduRoute</div>'
+        '<div class="brand-tagline">Learning, thoughtfully routed.</div>'
+        "</div></div>",
+        unsafe_allow_html=True,
+    )
+
+
+def mobile_brand() -> None:
+    """Compact brand shown in the mobile top bar."""
+    st.markdown(
+        '<div class="mobile-brand"><div class="mini-brand-mark">E</div>EduRoute</div>',
+        unsafe_allow_html=True,
+    )
+
+
+def chip(label: str) -> str:
+    """Return markup for a small pill label (caller renders it)."""
+    return f'<span class="chip">{escape(label)}</span>'
+
+
+def feature_card(title: str, body: str) -> None:
+    """Render a feature card; the icon is the title's first letter."""
+    st.markdown(
+        (
+            '<div class="feature-card">'
+            f'<div class="feature-icon" aria-hidden="true">{escape(title[0])}</div>'
+            f'<div class="feature-title">{escape(title)}</div>'
+            f"<p>{escape(body)}</p>"
+            "</div>"
+        ),
+        unsafe_allow_html=True,
+    )
+
+
+def plan_card(heading: str, body: str) -> None:
+    """Render a card for a planned (not yet live) capability."""
+    st.markdown(
+        (
+            '<div class="plan-card">'
+            '<div class="plan-kicker">Upcoming</div>'
+            f"<h4>{escape(heading)}</h4>"
+            f"<p>{escape(body)}</p>"
+            '<div class="plan-badge">No live data</div>'
+            "</div>"
+        ),
+        unsafe_allow_html=True,
+    )
+
+
+def steps_markup(steps: Sequence[tuple[str, str]]) -> str:
+    items = "".join(
+        f"<li><strong>{escape(title)}</strong> {escape(text)}</li>" for title, text in steps
+    )
+    return f'<ol class="step-list">{items}</ol>'
+
+
+def info_section(
+    kicker: str,
+    body: str = "",
+    steps: Sequence[tuple[str, str]] = (),
+    placeholder: str | None = None,
+) -> None:
+    """Render a titled content section with optional steps or a placeholder row."""
+    parts = [f'<div class="about-kicker">{escape(kicker)}</div>']
+    if body:
+        parts.append(f"<p>{escape(body)}</p>")
+    if steps:
+        parts.append(steps_markup(steps))
+    if placeholder:
+        parts.append(
+            '<div class="team-placeholder"><div class="team-mark" aria-hidden="true">T</div>'
+            f'<div class="team-copy">{escape(placeholder)}</div></div>'
+        )
+    st.markdown(f'<div class="about-section">{"".join(parts)}</div>', unsafe_allow_html=True)
+
+
+def page_footer() -> None:
+    st.markdown(
+        '<div class="page-footer"><div class="footer-brand"><div class="mini-brand-mark">E</div>'
+        '<div><div class="mini-brand-text">EduRoute</div>'
+        '<div class="footer-tagline">Learning, thoughtfully routed.</div></div></div>'
+        f'<div class="footer-links">{chip("Frontend prototype")}{chip("No live AI")}</div></div>',
+        unsafe_allow_html=True,
+    )
 
 
 def metric_card(label: str, value: str, note: str = "") -> None:
