@@ -1,10 +1,15 @@
 """Streamlit entry point for the EduRoute frontend foundation."""
 
 from collections.abc import Callable
+from pathlib import Path
+import sys
 
 import streamlit as st
 
-try:
+if __package__ in (None, ""):
+    project_root = Path(__file__).resolve().parent.parent
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
     from app.components import (
         brand_lockup,
         chip,
@@ -22,8 +27,8 @@ try:
         steps_markup,
     )
     from app.styles import APP_CSS
-except ModuleNotFoundError:
-    from components import (
+else:
+    from app.components import (
         brand_lockup,
         chip,
         empty_state,
@@ -39,7 +44,7 @@ except ModuleNotFoundError:
         status_indicator,
         steps_markup,
     )
-    from styles import APP_CSS
+    from app.styles import APP_CSS
 
 SCENARIOS = {
     "Vocabulary Flashcard": "Explain the meaning of a vocabulary word and give one example sentence.",
