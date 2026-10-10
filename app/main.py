@@ -40,11 +40,15 @@ MAX_QUESTION_CHARS = 600
 
 
 def _set_destination(destination: str) -> None:
-    st.session_state["active_destination"] = destination
+    st.session_state["pending_destination"] = destination
     st.rerun()
 
 
 def _render_sidebar() -> str:
+    if "pending_destination" in st.session_state:
+        st.session_state["active_destination"] = st.session_state["pending_destination"]
+        del st.session_state["pending_destination"]
+
     if "active_destination" not in st.session_state:
         st.session_state["active_destination"] = "Welcome"
 
